@@ -28,7 +28,7 @@ float sinCounterX=3.14/2;
 float sinCounterY=3.14/2;
 Agent[] agents = new Agent[maxParticles];
 boolean imageSaved=false;
-boolean followMouse=true;
+boolean followMouse=false;
 
  
 // SETUP //////////////////////////////////////////
