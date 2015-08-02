@@ -45,7 +45,6 @@ void desintegrate() {
      // i++;
       agents[i].update();  
       agents[i].display();
-      //pixelsSkipped=
     }
     particleRangeMin+=nPixelsDying;
   }
@@ -59,7 +58,6 @@ void desintegrate() {
   }
   if (particleRangeMax<totalPixels) {
     particleRangeMax+=nPixelsDying;
-    //particleRangeMin=particleRangeMax-maxParticles-(2);
     particleRangeMin=newParticleMin-maxParticles;
   }
   if (particleRangeMin<0) {

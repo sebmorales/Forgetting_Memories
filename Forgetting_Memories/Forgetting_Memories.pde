@@ -2,7 +2,7 @@
 // (use of PVector learned from Daniel Shiffmann tutorial)
 
 // USER VARIABLES
-String memoryToForget="memory2.jpg"; 
+String memoryToForget="memory.jpg"; 
 String replacementMemory="Replacement.jpg";
 
 
@@ -28,6 +28,7 @@ float sinCounterX=3.14/2;
 float sinCounterY=3.14/2;
 Agent[] agents = new Agent[maxParticles];
 boolean imageSaved=false;
+boolean followMouse=true;
 
  
 // SETUP //////////////////////////////////////////
@@ -53,5 +54,12 @@ void setup() {
  
 void draw() {
   forget(); 
+  if (keyPressed){
+    keyPressed=false;
+    if(followMouse){
+      followMouse=false;
+    }
+    else{followMouse=true;}
+  }
 }
  
