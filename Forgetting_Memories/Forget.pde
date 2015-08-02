@@ -1,18 +1,18 @@
-void forget(){
-  if (currentPixel>nPixelsDying){
-  image(img,0,0);
+void forget() {
+  if (currentPixel>nPixelsDying) { //as long as there are still pixels to be removed keep showing img
+    image(img, 0, 0);
   }
-  if (currentPixel<nPixelsDying){
+  if (currentPixel<nPixelsDying) { 
     background(0);
   }
   loadPixels();
-  if (currentPixel>nPixelsDying){
-    for (int i=totalPixels; i> (currentPixel-nPixelsDying); i--){
+  if (currentPixel>nPixelsDying) {
+    for (int i=totalPixels; i> (currentPixel-nPixelsDying); i--) {
       pixels[i]=color(0);
     }
   }
-  if (currentPixel<nPixelsDying){
-    while (currentPixel>=0){
+  if (currentPixel<nPixelsDying) { //this will run only for the last pixels
+    while (currentPixel>=0) {
       pixels[currentPixel]=color (0);
       currentPixel--;
     }
@@ -20,44 +20,50 @@ void forget(){
   updatePixels(); 
   desintegrate();
   //saveFrame("frames/#########.png");
-  currentPixel=currentPixel-nPixelsDying;
-  if (currentPixel<0){
+  currentPixel-=nPixelsDying;
+  if (currentPixel<0) {
     currentPixel=0;
   }
 }
-  
-  
-void desintegrate(){    
-    for (int i=particleRangeMin; i < particleRangeMax; i++) {
+
+
+void desintegrate() {    
+  for (int i=particleRangeMin; i < particleRangeMax; i+=4) {
+    agents[i].update();  
+    agents[i].display();
+    newParticleMin=i;
+
+   // i=i+int(random(0, 5));
+    if (particleRangeMax>totalPixels) {
+      particleRangeMax=totalPixels;
+    }
+  }
+
+  //Kill the rest pixels once the image has been desintegrated.
+  if (particleRangeMax==totalPixels) {
+    for (int i=particleRangeMin; i < totalPixels; i+=4) {
+     // i++;
       agents[i].update();  
-      agents[i].edges();
       agents[i].display();
-      if (particleRangeMax>totalPixels){
-        particleRangeMax=totalPixels;
-      }  
+      //pixelsSkipped=
     }
-    if (particleRangeMax==totalPixels){
-      for (int i=particleRangeMin; i < totalPixels; i++) {
-        agents[i].update();  
-        agents[i].edges();
-        agents[i].display();
-      }
-      particleRangeMin=particleRangeMin+(nPixelsDying);
-    }
-    
-    if(particleRangeMin>=totalPixels){
-      image(nImg,(img.width-nImg.width)/2,(img.height-nImg.height)/2);
-      if(!imageSaved){
+    particleRangeMin+=nPixelsDying;
+  }
+
+  if (particleRangeMin>=totalPixels) {
+    image(replacementImage, (img.width-replacementImage.width)/2, (img.height-replacementImage.height)/2);
+    if (!imageSaved) {
       save(memoryToForget);
       imageSaved=true;
-      }
-      
     }
-    if(particleRangeMax<totalPixels){
-      particleRangeMax=particleRangeMax+nPixelsDying;
-      particleRangeMin=particleRangeMax-maxParticles;
-    }
-    if (particleRangeMin<0){
-      particleRangeMin=0;
-    }
+  }
+  if (particleRangeMax<totalPixels) {
+    particleRangeMax+=nPixelsDying;
+    //particleRangeMin=particleRangeMax-maxParticles-(2);
+    particleRangeMin=newParticleMin-maxParticles;
+  }
+  if (particleRangeMin<0) {
+    particleRangeMin=0;
+  }
 }
+
